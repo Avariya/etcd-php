@@ -26,6 +26,6 @@ class Client extends GuzzlessClient
             'http_errors' => false
         ], $options));
 
-        parent::__construct($guzzleClient, $version);
+        parent::__construct($guzzleClient, $version, $root);
     }
 }

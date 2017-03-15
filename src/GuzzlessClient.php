@@ -55,7 +55,7 @@ class GuzzlessClient
         $root = self::DEFAULT_ROOT
     ) {
         $this->setRoot($root);
-        $this->apiVersion = $version;
+        $this->apiVersion = trim($version, '/');
 
         if (is_null($httpClient->getConfig('base_uri'))) {
             throw new EtcdException('Base URI not set at HTTP Client', 205);
