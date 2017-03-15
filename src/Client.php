@@ -3,9 +3,8 @@
 namespace LinkORB\Component\Etcd;
 
 use GuzzleHttp\Client as GuzzleClient;
-use LinkORB\Component\Etcd\Interfaces\EtcdClientInterface;
 
-class Client extends GuzzlessClient implements EtcdClientInterface
+class Client extends GuzzlessClient
 {
     const DEFAULT_SERVER = 'http://127.0.0.1:2379';
 
