@@ -6,10 +6,11 @@ use GuzzleHttp\RequestOptions;
 use LinkORB\Component\Etcd\Exception\EtcdException;
 use LinkORB\Component\Etcd\Exception\KeyExistsException;
 use LinkORB\Component\Etcd\Exception\KeyNotFoundException;
+use LinkORB\Component\Etcd\Interfaces\EtcdClientInterface;
 use Psr\Http\Message\ResponseInterface;
 use RecursiveArrayIterator;
 
-class GuzzlessClient
+class GuzzlessClient implements EtcdClientInterface
 {
     /**
      * Default settings
