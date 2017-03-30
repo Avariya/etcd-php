@@ -13,7 +13,7 @@ use RecursiveArrayIterator;
 class GuzzlessClient implements EtcdClientInterface
 {
     /**
-     * Request options
+     * Headers options
      */
     const HEADER_CONTENT_TYPE = 'Content-Type';
     const CONTENT_TYPE_FORM_URLENCODED = 'application/x-www-form-urlencoded';
