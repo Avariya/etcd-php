@@ -1,7 +1,9 @@
 <?php
+
 namespace LinkORB\Component\Etcd;
 
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\RequestOptions;
 use LinkORB\Component\Etcd\Exception\EtcdException;
 use LinkORB\Component\Etcd\Exception\KeyExistsException;
@@ -10,6 +12,10 @@ use LinkORB\Component\Etcd\Interfaces\EtcdClientInterface;
 use Psr\Http\Message\ResponseInterface;
 use RecursiveArrayIterator;
 
+/**
+ * Class GuzzlessClient
+ * @package LinkORB\Component\Etcd
+ */
 class GuzzlessClient implements EtcdClientInterface
 {
     /**
@@ -112,6 +118,7 @@ class GuzzlessClient implements EtcdClientInterface
      * Do a server request
      * @param string $uri
      * @return mixed
+     * @throws GuzzleException
      */
     public function doRequest($uri)
     {
@@ -122,6 +129,7 @@ class GuzzlessClient implements EtcdClientInterface
 
     /**
      * @inheritdoc
+     * @throws GuzzleException
      */
     public function set($key, $value, $ttl = null, $condition = array())
     {
@@ -143,6 +151,8 @@ class GuzzlessClient implements EtcdClientInterface
 
     /**
      * @inheritdoc
+     * @throws GuzzleException
+     * @throws KeyNotFoundException
      */
     public function getNode($key, array $flags = null)
     {
@@ -164,6 +174,8 @@ class GuzzlessClient implements EtcdClientInterface
 
     /**
      * @inheritdoc
+     * @throws GuzzleException
+     * @throws KeyNotFoundException
      */
     public function get($key, array $flags = null)
     {
@@ -179,6 +191,7 @@ class GuzzlessClient implements EtcdClientInterface
      * @param int $ttl
      * @return array $body
      * @throws KeyExistsException
+     * @throws GuzzleException
      */
     public function mk($key, $value, $ttl = 0)
     {
@@ -198,6 +211,8 @@ class GuzzlessClient implements EtcdClientInterface
 
     /**
      * @inheritdoc
+     * @throws GuzzleException
+     * @throws KeyExistsException
      */
     public function mkdir($key, $ttl = 0)
     {
@@ -226,6 +241,8 @@ class GuzzlessClient implements EtcdClientInterface
 
     /**
      * @inheritdoc
+     * @throws GuzzleException
+     * @throws KeyNotFoundException
      */
     public function update($key, $value, $ttl = 0, $condition = array())
     {
@@ -247,6 +264,7 @@ class GuzzlessClient implements EtcdClientInterface
      * @param int $ttl
      * @return array $body
      * @throws EtcdException
+     * @throws GuzzleException
      */
     public function updateDir($key, $ttl)
     {
@@ -278,6 +296,8 @@ class GuzzlessClient implements EtcdClientInterface
 
     /**
      * @inheritdoc
+     * @throws EtcdException
+     * @throws GuzzleException
      */
     public function rm($key)
     {
@@ -297,6 +317,7 @@ class GuzzlessClient implements EtcdClientInterface
      * @param boolean $recursive
      * @return mixed
      * @throws EtcdException
+     * @throws GuzzleException
      */
     public function rmdir($key, $recursive = false)
     {
@@ -321,6 +342,8 @@ class GuzzlessClient implements EtcdClientInterface
 
     /**
      * @inheritdoc
+     * @throws GuzzleException
+     * @throws KeyNotFoundException
      */
     public function listDir($key = '/', $recursive = false)
     {
@@ -348,17 +371,14 @@ class GuzzlessClient implements EtcdClientInterface
      * @param boolean $recursive
      * @return array
      * @throws EtcdException
+     * @throws GuzzleException
      */
     public function ls($key = '/', $recursive = false)
     {
         $this->values = array();
         $this->dirs = array();
 
-        try {
-            $data = $this->listDir($key, $recursive);
-        } catch (EtcdException $e) {
-            throw $e;
-        }
+        $data = $this->listDir($key, $recursive);
 
         $iterator = new RecursiveArrayIterator($data);
         return $this->traversalDir($iterator);
@@ -391,6 +411,8 @@ class GuzzlessClient implements EtcdClientInterface
 
     /**
      * @inheritdoc
+     * @throws EtcdException
+     * @throws GuzzleException
      */
     public function getKeysValue($root = '/', $recursive = true, $key = null)
     {
@@ -408,6 +430,7 @@ class GuzzlessClient implements EtcdClientInterface
      * @param int $ttl
      * @return array $body
      * @throws EtcdException
+     * @throws GuzzleException
      */
     public function mkdirWithInOrderKey($dir, $ttl = 0)
     {
@@ -441,6 +464,7 @@ class GuzzlessClient implements EtcdClientInterface
      * @param int $ttl
      * @param array $condition
      * @throws EtcdException
+     * @throws GuzzleException
      */
     public function setWithInOrderKey($dir, $value, $ttl = 0, $condition = array())
     {

@@ -3,8 +3,13 @@
 namespace LinkORB\Component\Etcd;
 
 use GuzzleHttp\Client as GuzzleClient;
+use LinkORB\Component\Etcd\Exception\EtcdException;
 use LinkORB\Component\Etcd\Interfaces\EtcdClientInterface;
 
+/**
+ * Class Client
+ * @package LinkORB\Component\Etcd
+ */
 class Client extends GuzzlessClient implements EtcdClientInterface
 {
     const DEFAULT_SERVER = 'http://127.0.0.1:2379';
@@ -15,6 +20,7 @@ class Client extends GuzzlessClient implements EtcdClientInterface
      * @param array $options
      * @param string $version
      * @param string $root
+     * @throws EtcdException
      */
     public function __construct(
         $server = self::DEFAULT_SERVER,
