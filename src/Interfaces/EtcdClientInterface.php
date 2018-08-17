@@ -2,6 +2,10 @@
 
 namespace LinkORB\Component\Etcd\Interfaces;
 
+/**
+ * Interface EtcdClientInterface
+ * @package LinkORB\Component\Etcd\Interfaces
+ */
 interface EtcdClientInterface
 {
     /**
